@@ -1,19 +1,43 @@
 import Parse from "parse";
 
+export async function getSelectedUsers(props) {
+  // Saving chatUsers to temp database
+  if (props.chatUsers.length >= 2) {
+    const parseQuery = new Parse.Query("ChatUsers");
+    parseQuery.equalTo("owner", Parse.User.current());
+    const queryResult = await parseQuery.first();
+
+    if (queryResult === undefined) {
+      const newSelectedUsers = new Parse.Object("ChatUsers");
+      newSelectedUsers.set("selectedUsers", props.chatUsers);
+      newSelectedUsers.set("owner", Parse.User.current());
+      await newSelectedUsers.save();
+    } else {
+      queryResult.set("selectedUsers", props.chatUsers);
+      await queryResult.save();
+    }
+  }
+  // Retrieving chatUsers from temp database
+  const parseQuery = new Parse.Query("ChatUsers");
+  parseQuery.equalTo("owner", Parse.User.current());
+  const selectedUsers = await parseQuery
+    .first()
+    .then((result) => result.get("selectedUsers"));
+  // console.log("selectedUsersQuery", selectedUsers);
+  return selectedUsers;
+}
+
 export async function clearSelectedUsers() {
   const parseQuery = new Parse.Query("ChatUsers");
   parseQuery.equalTo("owner", Parse.User.current());
   const queryResult = await parseQuery.findAll();
-  // console.log("query result", queryResult);
   queryResult.forEach((result) => result.destroy());
 }
 
 export async function checkUsersArray(usersArray) {
   if (usersArray === undefined || usersArray.length < 2) {
-    // console.log("Trying to fetch users");
     return false;
   } else {
-    // console.log("Users are present");
     return true;
   }
 }
@@ -28,12 +52,10 @@ export async function chatRoomSetup(usersArray) {
       chatRoomParseQueryResult !== undefined &&
       chatRoomParseQueryResult !== null
     ) {
-      // console.log("Entering Chat Room:", chatRoomParseQueryResult.id);
       chatRoomObject = chatRoomParseQueryResult;
       return chatRoomObject;
       //
     } else if (usersArray.length >= 2) {
-      // console.log("CREATING NEW CHAT ROOM FOR", usersArray);
       chatRoomObject = new Parse.Object("ChatRoom");
       chatRoomObject.set("users", usersArray); // POINTER OBJECTS HERE!
       await chatRoomObject.save();

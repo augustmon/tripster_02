@@ -1,5 +1,10 @@
 .paper-plane-signup {
   position: absolute;
-  margin-top: -20%;
-  margin-left: 48%;
+  top: 24px;
+  right: 48px;
+}
+
+.arrow {
+  position: absolute;
+  top: 16px;
 }

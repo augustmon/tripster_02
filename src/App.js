@@ -14,12 +14,11 @@ import Discover from "./pages/Discover/Discover";
 import Profile from "./pages/Profile/Profile";
 import Settings from "./pages/Settings/Settings";
 
-// Note the live query URL instead of the regular server url
+// Define Parse API
 const PARSE_LIVE_QUERY_URL = "https://tripster.b4a.io/";
 const PARSE_APPLICATION_ID = "XCuriaWlKUTt14yvNJVJ77kjQyC8yKFIOFqiVFck";
 const PARSE_JAVASCRIPT_KEY = "JxCHF3R5JB8VH3r8UXI9LCCEI14N3IdNIvrRhgIL";
 
-// Initialize parse using @parse/react instead of regular parse JS SDK
 initializeParse(
   PARSE_LIVE_QUERY_URL,
   PARSE_APPLICATION_ID,

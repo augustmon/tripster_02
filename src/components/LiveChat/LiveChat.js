@@ -13,12 +13,12 @@ export default function LiveChat(props) {
   messageQuery.equalTo("chatRoomId", props.chatRoom);
   messageQuery.ascending("createdAt");
   messageQuery.includeAll();
-  // MIGHT DELETE everything except "results"
+
   const { isLive, isLoading, isSyncing, results, count, error, reload } =
     useParseQuery(messageQuery, {
       enableLocalDatastore: true,
       enableLiveQuery: true,
-    });
+    }); // Might delete everything except `results`
 
   async function sendMessage() {
     try {
@@ -30,7 +30,6 @@ export default function LiveChat(props) {
       Message.set("senderId", Parse.User.current());
       Message.set("chatRoomId", props.chatRoom); //
       Message.save();
-      // alert("New message saved: " + messageText);
 
       setMessageInput("");
     } catch (error) {
@@ -71,14 +70,6 @@ export default function LiveChat(props) {
             ))}
         </div>
       )}
-
-      {/* <div className="status">
-        {isLoading && <p className="title">{"Loading…"}</p>}
-        {isSyncing && <p>{"Syncing…"}</p>}
-        {isLive ? <p>{"Status: Live"}</p> : <p>{"Status: Offline"}</p>}
-        {error && <p>{error.message}</p>}
-        {count && <p>{`Count: ${count}`}</p>}
-      </div> */}
 
       <div>
         <input

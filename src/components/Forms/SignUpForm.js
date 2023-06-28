@@ -11,7 +11,7 @@ import { getStaticContextFromError } from "@remix-run/router";
 export default function SignUpForm() {
   const [bookingNumber, setBookingNumber] = useState("testid");
   const [name, setName] = useState("");
-  const [passwordCreate, setPasswordCreate] = useState(""); // Get this to work :')
+  const [passwordCreate, setPasswordCreate] = useState(""); // Fix: we need to compare the 'passwordCreate' and 'passwordConfirm'
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const navigate = useNavigate();
